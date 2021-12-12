@@ -1,0 +1,108 @@
+
+<% layout('layout') -%>
+
+<div class="container-fluid px-4">
+        <h1 class="mt-4">Dashboard</h1>
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item active">Dashboard</li>
+            </ol>
+    <div class="row">
+        <div class="col-8">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-table me-1"></i>
+                    DataTable Example
+                </div>
+                <div class="card-body">
+                    <table id="datatablesSimple">
+                        <thead>
+                            <tr>
+                                <th>Name En</th>
+                                <th>Name En</th>
+                                <th>Image</th>
+                                <th>Price</th>
+                                <th>Category</th>
+                                <th>Quantity</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>Name En</th>
+                                <th>Name En</th>
+                                <th>Image</th>
+                                <th>Price</th>
+                                <th>Category</th>
+                                <th>Quantity</th>
+                                <th>Action</th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                        <% data.forEach(data => { %>
+                        <tr>
+                            <td><%-data.name.en%></td>
+                            <td><%-data.name.bn%></td>
+                            <td><img src=<%=baseURL%><%-data.image%>  style="width:50px;height:60px;"></td>
+                            <td><p><%-data.price%></p></td>
+                            <% if(data.category_id != null) { %>
+                            <td><%-data.category_id.name.en%></td>
+                            <% } else { %>
+                            <td><p>No Category</p></td>
+                            <% } %>
+                            <td><p><%-data.quantity%></p></td>
+                            <td>
+                                <a href="{{URL::to('admin/product')}}/{{$item->id}}/edit" class="btn btn-primary btn-icon-split btn-sm">
+                                    <span class="text">edit</span>
+                                            <span class="icon text-gray-600">
+                                                <i class="fas fa-arrow-right"></i>
+                                            </span>
+                                </a>
+                                <a href="<%=baseURL%>product/delete/<%-data._id%>"">
+                                    <button type='submit' class="btn btn-danger align-content-end btn-sm" ><span class="text">delete</span>
+                                    <span class="icon text-white-50">
+                                            <i class="fas fa-trash"></i>
+                                    </span>
+                                    </button>
+                                </a>
+                            </td>
+                        </tr>
+                        <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-table me-1"></i>
+                    Create Category
+                </div>
+                    <form action="<%=baseURL%>product" method="post" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="a">Name English</label>
+                                <input type="text" class="form-control" id="a"  placeholder="Enter product name in english" name="nameEn" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="b">Name Bangla</label>
+                                <input type="text" class="form-control" id="b"  placeholder="Enter product name in bangla" name="nameBn" required>
+                            </div>
+                            <div class="form-group">
+                            <label for="logo"> Upload Image </label>
+                                <input type="file"  name="image" class="form-control"  required>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1"> Select parent category </label>
+                                <select class="form-control" name="category_id"  >
+                                    <% category.forEach(category => { %>
+                                        <option value= <%-category._id%> > <%-category.name.en%> </option>
+                                    <% })%>
+                                </select>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+            </div>
+        </div>
+    </div>
+</div>
